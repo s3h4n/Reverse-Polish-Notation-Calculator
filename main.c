@@ -5,17 +5,17 @@
 
 int main()
 {
-    char expression[100];
+    char expression[100]; // Array to store the input expression (max size 100)
 
-    Stack stack;
+    Stack stack; // Stack to hold operands during evaluation
 
-    initStack(&stack);
+    initStack(&stack); // Initialize the stack
 
-    getExpression(expression);
+    getExpression(expression); // Get postfix expression from user
 
-    evaluatePostfix(expression, &stack);
+    evaluatePostfix(expression, &stack); // Evaluate the postfix expression
 
-    printResult(&stack);
+    printResult(&stack); // Print the final result from the stack
 
     return 0;
 }
