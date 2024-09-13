@@ -6,6 +6,7 @@
 int main()
 {
     char expression[100];
+
     Stack stack;
 
     initStack(&stack);
