@@ -18,7 +18,6 @@ void evaluatePostfix(char expression[], Stack *stack)
             if (stack->top < 1)
             {
                 printf("Error: Invalid Expression\n");
-                exit(1); // Exit the program on error
             }
 
             int b = pop(stack);
@@ -41,14 +40,12 @@ void evaluatePostfix(char expression[], Stack *stack)
                 if (b == 0)
                 {
                     printf("Error: Division by zero\n");
-                    exit(1); // Exit the program on error
                 }
                 push(stack, divide(a, b));
             }
             else
             {
                 printf("Error: Invalid Operator\n");
-                exit(1); // Exit the program on error
             }
         }
     }
@@ -57,6 +54,5 @@ void evaluatePostfix(char expression[], Stack *stack)
     if (stack->top != 0)
     {
         printf("Error: Too many operands\n");
-        exit(1); // Exit the program on error
     }
 }
