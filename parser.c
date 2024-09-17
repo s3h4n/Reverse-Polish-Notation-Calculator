@@ -3,56 +3,69 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-void evaluatePostfix(char expression[], Stack *stack)
+// Function to evaluate a space-separated postfix expression with floating-point support
+int evaluatePostfix(char expression[], Stack *stack)
 {
-    for (int i = 0; expression[i] != '\0'; i++)
+    char *token = strtok(expression, " "); // Tokenize input by spaces
+    int errorFlag = 0;                     // Track any errors during evaluation
+
+    while (token != NULL)
     {
-        if (isdigit(expression[i]))
+        // Check for digits and negative integers
+        if (isdigit(token[0]) || (token[0] == '-' && isdigit(token[1])))
         {
-            push(stack, expression[i] - '0');
+            double num = atof(token); // Convert token to double to allow precise results from division
+            push(stack, num);         // Push the number onto the stack
         }
-        else
+        else if (token[0] == '+' || token[0] == '-' || token[0] == '*' || token[0] == '/')
         {
-            // Check if there are at least two operands on the stack
+            // Check for stack underflow
             if (stack->top < 1)
             {
-                printf("Error: Invalid Expression\n");
+                return 1; // Error code for invalid expression (not enough operands)
             }
 
-            int b = pop(stack);
-            int a = pop(stack);
+            double b = pop(stack);
+            double a = pop(stack);
 
-            if (expression[i] == '+')
+            if (token[0] == '+')
             {
                 push(stack, add(a, b));
             }
-            else if (expression[i] == '-')
+            else if (token[0] == '-')
             {
                 push(stack, subtract(a, b));
             }
-            else if (expression[i] == '*')
+            else if (token[0] == '*')
             {
                 push(stack, multiply(a, b));
             }
-            else if (expression[i] == '/')
+            else if (token[0] == '/')
             {
-                if (b == 0)
+                int divisionError = 0;
+                double result = divide(a, b, &divisionError); // Allow float division result
+                if (divisionError)
                 {
-                    printf("Error: Division by zero\n");
+                    return 2; // Error code for division by zero
                 }
-                push(stack, divide(a, b));
-            }
-            else
-            {
-                printf("Error: Invalid Operator\n");
+                push(stack, result); // Push the floating-point result
             }
         }
+        else
+        {
+            return 1; // Error code for invalid operator or token
+        }
+
+        token = strtok(NULL, " "); // Move to the next token
     }
 
     // If there's more than one number left in the stack, it's an error
     if (stack->top != 0)
     {
-        printf("Error: Too many operands\n");
+        return 1; // Error code for too many operands
     }
+
+    return 0; // Success
 }

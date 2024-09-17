@@ -3,6 +3,7 @@
 
 #include "stack.h"
 
-void evaluatePostfix(char expression[], Stack *stack);
+// Function declaration for evaluating a space-separated postfix expression
+int evaluatePostfix(char expression[], Stack *stack);
 
 #endif
