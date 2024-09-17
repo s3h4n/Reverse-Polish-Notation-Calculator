@@ -3,6 +3,7 @@
 
 #include "stack.h"
 
+// Function declarations for input/output handling
 void getExpression(char expression[]);
 void printResult(Stack *stack);
 
