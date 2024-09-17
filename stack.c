@@ -1,17 +1,39 @@
 #include "stack.h"
+#include <stdio.h>
 
-void initStack(Stack *s) {
-    s->top = -1; // Initialize the top of the stack to -1 in  (empty stack) in RPN calculator
+// Initialize the stack
+void initStack(Stack *s){
+    s->top = -1; // Set top to -1 (empty stack)
 }
 
-void push(Stack *s, int value) {
-    s->data[++(s->top)] = value; // Push the value onto the top of the stack of RPN calculator
+// Push a value onto the stack with overflow check
+void push(Stack *s, double value){
+    if (s->top >= MAX - 1){
+        printf("Error: Stack overflow. Cannot push value.\n");
+    }
+    else{
+        s->data[++(s->top)] = value; // Push the double value onto the stack
+    }
 }
 
-int pop(Stack *s) {
-    return s->data[(s->top)--]; // Pop and return the top value
+// Pop a value from the stack with underflow check
+double pop(Stack *s){
+    if (s->top == -1){
+        printf("Error: Stack underflow. Cannot pop value.\n");
+        return 0; // Return a default value
+    }
+    else{
+        return s->data[(s->top)--]; // Pop and return the top value
+    }
 }
 
-int peek(Stack *s) {
-    return s->data[s->top]; // Peek the top value without popping it
+// Peek the top value of the stack without popping it
+double peek(Stack *s){
+    if (s->top == -1){
+        printf("Error: Stack is empty. Cannot peek value.\n");
+        return 0; // Return a default value
+    }
+    else{
+        return s->data[s->top]; // Return the top value
+    }
 }
